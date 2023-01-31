@@ -1,0 +1,13 @@
+
+ingress:
+  enabled: true
+  # IngressClass that will be be used to implement the Ingress
+  ingressClassName: "traefik"
+  hosts:
+    - host: whoami.labs.vee.codes
+      paths:
+        - /
+  # tls:
+  #   - secretName: whoami-tls
+  #     hosts:
+  #       - whoami.labs.vee.codes

@@ -1,23 +1,34 @@
-# sem swarm
+#
+# Configuração simples para Docker Engine local
 #
 version: '3'
 
 services:
   traefik:
-    image: traefik:v2.0
-    command: --providers.docker=true --providers.docker.endpoint="unix:///var/run/docker.sock" --api.insecure=true
+    image: traefik:v3.0 # ainda beta
+    command: --api.insecure=true --providers.docker
     volumes:
+      # Bind do socket do Docker
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
+      # Porta HTTP
       - "80:80"
+      # Web UI
       - "8080:8080"
 
+  #
+  # Cada aplicação anuncia seu hostname com "labels" e o Traefik se reconfigura sozinho
+  #
   webapp1:
     image: containous/whoami
     labels:
-      - "traefik.http.routers.webapp1.rule=Host(`app1.company.com`)"
+      - "traefik.http.routers.webapp1.rule=Host(`app1.localhost`)"
+    command:
+      - "--name=app1"
 
   webapp2:
     image: containous/whoami
     labels:
-      - "traefik.http.routers.webapp2.rule=Host(`app2.company.com`)"
+      - "traefik.http.routers.webapp2.rule=Host(`app2.localhost`)"
+    command:
+      - "--name=app2"

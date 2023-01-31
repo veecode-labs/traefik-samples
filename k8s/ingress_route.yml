@@ -2,16 +2,15 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: webapp
-  namespace: front
-  labels:
-    app: webapp
+  name: whoami
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
-  - match: Host(`app3.company.com`)
+  - match: Host(`whoami.labs.vee.codes`)
     kind: Rule
     services:
-    - name: webapp
+    - name: whoami
       port: 80
+  tls:
+    certResolver: leproduction
