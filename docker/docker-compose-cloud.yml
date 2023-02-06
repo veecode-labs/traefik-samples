@@ -15,7 +15,7 @@ services:
       - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
       - "--certificatesresolvers.myresolver.acme.email=exemplo@vee.codes"
       - "--certificatesresolvers.myresolver.acme.storage=/opt/letsencrypt/acme.json"
-      - "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
     volumes:
       # Bind do socket do Docker
       - /var/run/docker.sock:/var/run/docker.sock
@@ -29,8 +29,8 @@ services:
     image: containous/whoami
     labels:
       - "traefik.http.routers.webapp1.rule=Host(`app1.labs.vee.codes`)"
-      #- "traefik.http.routers.webapp1.entrypoints=websecure"
-      #- "traefik.http.routers.webapp1.tls.certresolver=myresolver"
+      - "traefik.http.routers.webapp1.entrypoints=websecure"
+      - "traefik.http.routers.webapp1.tls.certresolver=myresolver"
     command:
       - "--name=app1"
 
@@ -38,8 +38,8 @@ services:
     image: containous/whoami
     labels:
       - "traefik.http.routers.webapp2.rule=Host(`app2.labs.vee.codes`)"
-      #- "traefik.http.routers.webapp2.entrypoints=websecure"
-      #- "traefik.http.routers.webapp2.tls.certresolver=myresolver"
+      - "traefik.http.routers.webapp2.entrypoints=websecure"
+      - "traefik.http.routers.webapp2.tls.certresolver=myresolver"
     command:
       - "--name=app2"
 
